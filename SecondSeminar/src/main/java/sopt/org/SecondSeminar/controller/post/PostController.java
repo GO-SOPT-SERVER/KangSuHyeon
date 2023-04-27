@@ -3,6 +3,7 @@ package sopt.org.SecondSeminar.controller.post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import sopt.org.SecondSeminar.controller.post.dto.CreatePostDTO;
+import sopt.org.SecondSeminar.controller.post.dto.UpdatePostDTO;
 import sopt.org.SecondSeminar.domain.post.Post;
 import sopt.org.SecondSeminar.service.post.PostService;
 
@@ -34,5 +35,17 @@ public class PostController {
         if (postList.isEmpty())
             return "조회된 게시물이 없습니다.";
         return postList;
+    }
+
+    @PutMapping("/post/{postId}")
+    public String updatePost(@PathVariable final int postId, @RequestBody final UpdatePostDTO post) {
+        Optional<String> updateResult = postService.updatePost(postId, post);
+        return updateResult.orElse("게시물 업데이트를 실패했습니다.");
+    }
+
+    @DeleteMapping("/post/{postId}")
+    public String deletePost(@PathVariable final int postId) {
+        Optional<Integer> deletePostId = postService.deletePost(postId);
+        return deletePostId.map(id -> id + "번 게시물이 삭제되었습니다.").orElse("게시물 삭제를 실패했습니다.");
     }
 }
