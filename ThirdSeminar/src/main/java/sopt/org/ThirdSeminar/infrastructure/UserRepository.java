@@ -5,4 +5,6 @@ import sopt.org.ThirdSeminar.domain.User;
 
 public interface UserRepository extends Repository<User, Long> {
     void save(User user);
+
+    User findById(Long id);
 }
