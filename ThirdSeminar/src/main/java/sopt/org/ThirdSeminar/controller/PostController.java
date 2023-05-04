@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import sopt.org.ThirdSeminar.common.dto.ApiResponseDto;
 import sopt.org.ThirdSeminar.controller.dto.request.PostRequestDto;
 import sopt.org.ThirdSeminar.controller.dto.response.PostResponseDto;
+import sopt.org.ThirdSeminar.exception.ErrorStatus;
 import sopt.org.ThirdSeminar.exception.SuccessStatus;
+import sopt.org.ThirdSeminar.exception.UserNotFoundException;
 import sopt.org.ThirdSeminar.service.PostService;
 
 import java.util.List;
@@ -22,7 +24,11 @@ public class PostController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponseDto<PostResponseDto> createPost(@RequestBody final PostRequestDto request) {
-        return ApiResponseDto.success(SuccessStatus.CREATE_POST_SUCCESS, postService.createPost(request));
+        try {
+            return ApiResponseDto.success(SuccessStatus.CREATE_POST_SUCCESS, postService.createPost(request));
+        } catch (UserNotFoundException e) {
+            return ApiResponseDto.error(ErrorStatus.USER_NOT_FOUND);
+        }
     }
 
     //유저아이디로 게시물 조회
