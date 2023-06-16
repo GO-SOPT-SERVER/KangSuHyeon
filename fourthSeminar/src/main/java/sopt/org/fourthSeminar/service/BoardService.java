@@ -2,7 +2,7 @@ package sopt.org.fourthSeminar.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sopt.org.fourthSeminar.controller.dto.BoardRequestDto;
+import sopt.org.fourthSeminar.controller.request.dto.BoardRequestDto;
 import sopt.org.fourthSeminar.domain.Board;
 import sopt.org.fourthSeminar.domain.User;
 import sopt.org.fourthSeminar.exception.Error;
@@ -19,8 +19,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public void create(BoardRequestDto request) {
-        User user = userRepository.findByEmail(request.getEmail())
+    public void create(Long userId, BoardRequestDto request) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_USER_EXCEPTION, Error.NOT_FOUND_USER_EXCEPTION.getMessage()));
 
         Board newBoard = Board.newInstance(
