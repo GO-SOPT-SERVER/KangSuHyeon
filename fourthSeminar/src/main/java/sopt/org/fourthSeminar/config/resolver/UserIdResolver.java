@@ -33,7 +33,7 @@ public class UserIdResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(@NotNull MethodParameter parameter, ModelAndViewContainer mavContainer, @NotNull NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         final HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        final String token = request.getHeader("Authorization");
+        final String token = request.getHeader("Authorization").split(" ")[1]; //swagger Authorization에 Bearer를 붙이기 때문
 
         //토큰 검증
         if (!jwtService.verifyToken(token)) {

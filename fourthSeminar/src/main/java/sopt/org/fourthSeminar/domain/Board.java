@@ -20,6 +20,9 @@ public class Board extends AuditingTimeEntity {
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private User user;
 
+    @Column
+    private String thumbnail;
+
     @Column(nullable = false)
     private String title;
 
@@ -36,7 +39,19 @@ public class Board extends AuditingTimeEntity {
         this.isPublic = isPublic;
     }
 
+    private Board(User user, String thumbnail, String title, String content, Boolean isPublic) {
+        this.user = user;
+        this.thumbnail = thumbnail;
+        this.title = title;
+        this.content = content;
+        this.isPublic = isPublic;
+    }
+
     public static Board newInstance(User user, String title, String content, Boolean isPublic) {
         return new Board(user, title, content, isPublic);
+    }
+
+    public static Board newInstance(User user, String thumbnail, String title, String content, Boolean isPublic) {
+        return new Board(user, thumbnail, title, content, isPublic);
     }
 }
